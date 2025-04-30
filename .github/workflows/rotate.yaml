@@ -1,4 +1,7 @@
+name: Rotate pfp
+
 on:
+  workflow_dispatch: {}
   schedule:
     # runs daily at 7 AM ET
     - cron: "0 11 * * *"

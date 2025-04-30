@@ -4,15 +4,18 @@ from PIL import Image
 def crop_images_to_center_square(
     images_dir: str,
     size: int = 200,
-    output_dir: str | None = None
+    output_dir: str | None = None,
+    top_offset: int = 0
 ) -> None:
     """
-    Crop every image in `images_dir` to a center square of dimensions size×size.
-    Saves cropped images to `output_dir` (defaults to overwriting in place).
+    Crop every image in `images_dir` to a square of dimensions size×size,
+    centered horizontally with an optional vertical offset.
 
-    :param images_dir: Path to folder containing your images.
-    :param size:      Side length (in pixels) of the square crop.
-    :param output_dir:If provided, cropped images go here; otherwise overwrite originals.
+    :param images_dir: Path to folder containing images.
+    :param size: Side length (px) of the square crop.
+    :param output_dir: Destination folder for cropped images; defaults to images_dir.
+    :param top_offset: Vertical offset (px) added to the top coordinate of the crop.
+                       Positive values move the crop downward.
     """
     if output_dir is None:
         output_dir = images_dir
@@ -27,10 +30,15 @@ def crop_images_to_center_square(
 
         with Image.open(src_path) as img:
             w, h = img.size
-            # Compute coordinates of center crop
-            left   = max(0, (w - size) // 2)
-            top    = max(0, (h - size) // 2)
-            right  = left + size
+            # Compute horizontal center
+            left = max(0, (w - size) // 2)
+            # Compute vertical center and apply offset
+            center_top = (h - size) // 2
+            top = center_top + top_offset
+            # Clamp within bounds
+            top = max(0, min(top, h - size))
+
+            right = left + size
             bottom = top + size
 
             cropped = img.crop((left, top, right, bottom))
@@ -39,4 +47,4 @@ def crop_images_to_center_square(
         print(f"Cropped {filename} → {dst_path}")
 
 if __name__ == "__main__":
-    crop_images_to_center_square("./squiddy_orig", size=350, output_dir="./squiddy")
+    crop_images_to_center_square("./squiddy_orig", size=300, output_dir="./squiddy", top_offset=50)
