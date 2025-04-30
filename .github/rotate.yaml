@@ -1,0 +1,19 @@
+on:
+  schedule:
+    # runs daily at 7 AM ET
+    - cron: "0 11 * * *"
+jobs:
+  rotate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install slack-sdk
+      - name: Rotate pfp
+        env:
+          SLACK_USER_TOKEN: ${{ secrets.SLACK_USER_TOKEN }}
+        run: python rotate_pfp.py
