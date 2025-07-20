@@ -47,4 +47,4 @@ def crop_images_to_center_square(
         print(f"Cropped {filename} → {dst_path}")
 
 if __name__ == "__main__":
-    crop_images_to_center_square("./squiddy_orig", size=300, output_dir="./squiddy", top_offset=50)
+    crop_images_to_center_square("./squiddy_directors_cut", size=300, output_dir="./squiddy", top_offset=50)

@@ -9,7 +9,7 @@ client = WebClient(token=SLACK_TOKEN)
 
 # Point this at a folder of pre-prepared square images
 IMAGES_DIR = Path("./squiddy")
-START_OFFSET = 2 # started on apr 30th
+START_OFFSET = 20  # restarted on jul 20th to frame 85
 
 
 def set_daily_avatar():
